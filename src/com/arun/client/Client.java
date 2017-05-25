@@ -115,20 +115,5 @@ public class Client {
 		dependencyAdvancedExecutor();
 	}
 	
-//	public static void dependencyAdvancedExecutor() {
-//    	long startTime = System.nanoTime();
-//    	BusinessService service = new BusinessService();
-//    	Map<Object, List<String>> inputMap = new HashMap<>();
-//    	inputMap.put(service, Arrays.asList("executeQueryOne","executeQueryTwo","executeQueryThree"));
-//		List<Boolean> result = new ArrayList<>();
-//		try {
-//			result = ParallelProcessor.dependentParallelExecutor(inputMap);
-//		} catch (NoSuchMethodException | SecurityException e) {
-//			e.printStackTrace();
-//		}
-//		result.forEach(s -> System.out.println(s));
-//    	long executionTime = (System.nanoTime() - startTime) / 1000000;
-//    	System.out.printf("\nTotal elapsed time is %d", executionTime);
-//    }
 	
 }
