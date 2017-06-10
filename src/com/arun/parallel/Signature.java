@@ -25,34 +25,15 @@ public class Signature {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Class<? extends Object> getReturnType() {
 		return returnType;
-	}
-
-	public void setReturnType(Class<? extends Object> returnType) {
-		this.returnType = returnType;
 	}
 
 	public List<Class<? extends Object>> getArgTypes() {
 		return argTypes;
 	}
 
-	public void setArgTypes(List<Class<? extends Object>> argTypes) {
-		this.argTypes = argTypes;
-	}
-
 	public List<? extends Object> getArgs() {
 		return args;
 	}
-
-	public void setArgs(List<? extends Object> args) {
-		this.args = args;
-	}
-	
-	
-	
 }
