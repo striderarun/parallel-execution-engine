@@ -30,7 +30,7 @@ public class SupplierFactory {
 		};		
 	}
 	
-	public static <T,E> Supplier<T> createGenericReflectionSupplier(Object obj, String methodName, Class<T> type, Signature<T,E> signature) throws NoSuchMethodException, SecurityException {
+	public static <T,E> Supplier<T> createGenericReflectionSupplier(Object obj, String methodName, Class<? extends Object> type, Signature signature) throws NoSuchMethodException, SecurityException {
 		if (signature.getArgs() != null && signature.getArgs().size() > 0) {
 			return createGenericReflectionSupplierWithArgs(obj, methodName, type, signature.getArgs(), signature.getArgTypes().toArray(new Class[signature.getArgTypes().size()]));
 		} else {
@@ -38,7 +38,7 @@ public class SupplierFactory {
 		}
 	}
 	
-	public static <T,E> Supplier<T> createGenericReflectionSupplierWithArgs(Object obj, String methodName, Class<T> type, List<Object> args, Class<E>... argTypes) throws NoSuchMethodException, SecurityException {
+	public static <T,E> Supplier<T> createGenericReflectionSupplierWithArgs(Object obj, String methodName, Class<? extends Object> type, List<? extends Object> args, Class<E>... argTypes) throws NoSuchMethodException, SecurityException {
 		Method argsMethod = obj.getClass().getMethod(methodName, argTypes);		
 		return () -> {
 			T t = null;
@@ -51,7 +51,7 @@ public class SupplierFactory {
 		};		
 	}
 	
-	public static <T> Supplier<T> createGenericReflectionSupplierNoArgs(Object obj, String methodName, Class<T> type) throws NoSuchMethodException, SecurityException {
+	public static <T> Supplier<T> createGenericReflectionSupplierNoArgs(Object obj, String methodName, Class<? extends Object> type) throws NoSuchMethodException, SecurityException {
 		Method noArgsMethod = obj.getClass().getMethod(methodName);
 		return () -> {
 			T t = null;

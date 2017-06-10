@@ -86,13 +86,13 @@ public class Client {
 	public static <T,E> void dependencyAdvancedExecutor() {
     	long startTime = System.nanoTime();
     	BusinessService service = new BusinessService();
-    	Map<Object, List<Signature<T,E>>> inputMap = new HashMap<>();
-    	List<Signature<T,E>> signatures = new ArrayList<>();
-    	signatures.add((Signature<T,E>)new Signature<>("executeQueryOne", Boolean.class));
-    	signatures.add((Signature<T,E>)new Signature<>("executeQueryTwo", Boolean.class, Arrays.asList(1), Arrays.asList((Class<T>)Integer.class)));
-    	signatures.add((Signature<T,E>)new Signature<>("executeQueryThree", Boolean.class, Arrays.asList("Arun"), Arrays.asList((Class<T>)String.class)));
-    	signatures.add((Signature<T,E>)new Signature<>("executeQueryFour", String.class));
-    	signatures.add((Signature<T,E>)new Signature<>("executeQueryFive", Integer.class));
+    	Map<Object, List<Signature>> inputMap = new HashMap<>();
+    	List<Signature> signatures = new ArrayList<>();
+    	signatures.add(new Signature("executeQueryOne", Boolean.class));
+    	signatures.add(new Signature("executeQueryTwo", Boolean.class, Arrays.asList(1), Arrays.asList(Integer.class)));
+    	signatures.add(new Signature("executeQueryThree", Boolean.class, Arrays.asList("Arun"), Arrays.asList(String.class)));
+    	signatures.add(new Signature("executeQueryFour", String.class));
+    	signatures.add(new Signature("executeQueryFive", Integer.class));
 
     	inputMap.put(service, signatures);
 		List<T> result = new ArrayList<>();
@@ -114,6 +114,6 @@ public class Client {
 //		dependencyNormalExecutor();
 		dependencyAdvancedExecutor();
 	}
-	
+
 	
 }
