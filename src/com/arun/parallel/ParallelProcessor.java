@@ -24,28 +24,8 @@ public class ParallelProcessor {
             executor.shutdown();
         }
     }
-    
-    public static List<Boolean> parallelExecutor(BooleanConsumer... booleanConsumers) {
-    	List<Supplier<Boolean>> suppliersList = new ArrayList<>();
-    	if (booleanConsumers != null && booleanConsumers.length > 0) {
-    		for(int i=0; i<booleanConsumers.length; i++) {
-    			suppliersList.add(SupplierFactory.createSupplier(booleanConsumers[i]));
-    		}
-    	}
-    	return execute(suppliersList);
-    }
-    
-    public static List<Boolean> dependentParallelExecutor(Map<Object, List<String>> inputMap) throws NoSuchMethodException, SecurityException {
-    	List<Supplier<Boolean>> suppliersList = new ArrayList<>();
-    	for(Entry<Object, List<String>> entry: inputMap.entrySet()) {
-    		for(String methodName: entry.getValue()) {
-        		suppliersList.add(SupplierFactory.createReflectionSupplier(entry.getKey(), methodName));
-    		}
-    	}
-    	return execute(suppliersList);
-    }
 
-    public static <T,E> List<T> genericParallelExecutor(Map<Object, List<Signature>> inputMap) throws NoSuchMethodException, SecurityException {
+    public static <T> List<T> genericParallelExecutor(Map<Object, List<Signature>> inputMap) throws NoSuchMethodException, SecurityException {
     	List<Supplier<T>> suppliersList = new ArrayList<>();
     	for(Entry<Object, List<Signature>> entry: inputMap.entrySet()) {
     		for(Signature signature: entry.getValue()) {
@@ -54,7 +34,4 @@ public class ParallelProcessor {
     	}
     	return execute(suppliersList);
     }
-   
-    
-	
 }

@@ -1,6 +1,5 @@
 package com.arun.parallel;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -8,28 +7,6 @@ import java.util.function.Supplier;
 
 public class SupplierFactory {
 
-	public static Supplier<Boolean> createSupplier(BooleanConsumer consumer) {
-		return consumer::accept;
-	}
-	
-	public static Supplier<Boolean> createObjectSupplier(Serializable s, ObjectConsumer consumer) {
-		return () -> {
-			return consumer.accept(s);
-		};
-	}
-	
-	public static Supplier<Boolean> createReflectionSupplier(Object obj, String methodName) throws NoSuchMethodException, SecurityException {
-		Method method = obj.getClass().getMethod(methodName);
-		return () -> {
-			try {
-				return (Boolean) method.invoke(obj);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-			return false;
-		};		
-	}
-	
 	public static <T> Supplier<T> createGenericReflectionSupplier(Object obj, String methodName, Class<? extends Object> type, Signature signature) throws NoSuchMethodException, SecurityException {
 		if (signature.getArgs() != null && signature.getArgs().size() > 0) {
 			return createGenericReflectionSupplierWithArgs(obj, methodName, type, signature.getArgs(), signature.getArgTypes().toArray(new Class[signature.getArgTypes().size()]));
