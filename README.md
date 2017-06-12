@@ -32,38 +32,15 @@ List<String> getSchoolNames();
 Assuming each method takes 1 second to execute, a client which wants to call all the methods from StudentService and SchoolService 
 will need 7 seconds to get the output of all the sequential service calls. 
 
-Using the parallel-execution-engine library, a client can call all the methods simultaneously and get the output in 1 second as follows:
+Using the parallel-execution-engine library, a client can call all the methods simultaneously and get the output in 1 second.
 
-Step 1: Create a list of signatures of all methods of a class to be executed in parallel.
-
-eg:
-
-studentServiceSignatures.add(Signature.method("getStudentMarks")
-		.returnType(List.class)
-		.argsList(Arrays.asList(1L))
-		.argTypes(Arrays.asList(Long.class))
-		.build());
-
-studentServiceSignatures.add(Signature.method("getStudentsByFirstNames")
-		.returnType(List.class)
-		.argsList(Arrays.asList(Arrays.asList("John","Alice")))
-		.argTypes(Arrays.asList(List.class))
-		.build());
-		
+Creating a signature:
+	
 studentServiceSignatures.add(Signature.method("findStudent")
 		.returnType(Student.class)
 		.argsList(Arrays.asList("bob@gmail.com", 14, false))
 		.argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
 		.build());
-				
-schoolServiceSignatures.add(Signature.method("getSchoolNames")
-		.returnType(List.class)
-		.build());
-						
-Step 2: Submit the objects and the method signatures to the execution library.
 
-Map<Object, List<Signature>> executionMap = new HashMap<>();
-executionMap.put(studentService, studentServiceSignatures);
-executionMap.put(schoolService, schoolServiceSignatures);
-List<T> result = ParallelProcessor.genericParallelExecutor(executionMap);
+					
 
