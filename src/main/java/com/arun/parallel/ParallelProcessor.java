@@ -25,13 +25,17 @@ public class ParallelProcessor {
         }
     }
 
-    public static <T> List<T> genericParallelExecutor(Map<Object, List<Signature>> inputMap) throws NoSuchMethodException, SecurityException {
-    	List<Supplier<T>> suppliersList = new ArrayList<>();
-    	for(Entry<Object, List<Signature>> entry: inputMap.entrySet()) {
-    		for(Signature signature: entry.getValue()) {
-            	suppliersList.add(SupplierFactory.createGenericReflectionSupplier(entry.getKey(), signature.getName(), signature.getReturnType(), signature));	
-        	}
-    	}
-    	return execute(suppliersList);
+    public static <T> List<T> genericParallelExecutor(Map<Object, List<Signature>> inputMap) {
+		List<Supplier<T>> suppliersList = new ArrayList<>();
+    	try {
+			for(Entry<Object, List<Signature>> entry: inputMap.entrySet()) {
+				for(Signature signature: entry.getValue()) {
+					suppliersList.add(SupplierFactory.createGenericReflectionSupplier(entry.getKey(), signature.getName(), signature.getReturnType(), signature));
+				}
+			}
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+		return execute(suppliersList);
     }
 }

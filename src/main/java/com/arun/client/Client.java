@@ -92,19 +92,14 @@ public class Client {
 		executionMap.put(studentService, studentServiceSignatures);
 		executionMap.put(schoolService, schoolServiceSignatures);
 
-		List<T> result = new ArrayList<>();
-		try {
-			result = ParallelProcessor.genericParallelExecutor(executionMap);
-		} catch (NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
+		List<T> result = ParallelProcessor.genericParallelExecutor(executionMap);
 		result.forEach(s -> System.out.println(s));
     	long executionTime = (System.nanoTime() - startTime) / 1000000;
     	System.out.printf("\nTotal elapsed time is %d", executionTime);
     }
 
 	public static void main(String[] args) {
-		serialExecution();
+//		serialExecution();
 		parallelExecution();
 	}
 	
