@@ -14,7 +14,7 @@ import com.arun.student.StudentService;
 
 public class Client {
 
-	public static void dependencyNormalExecutor2() {
+	public static void serialExecution() {
 		long startTime = System.nanoTime();
 		StudentService service = new StudentService();
 		Map<String, Integer> bookSeries = new HashMap<>();
@@ -36,14 +36,14 @@ public class Client {
 		System.out.println(studentId);
 
 		long executionTime = (System.nanoTime() - startTime) / 1000000;
-		System.out.printf("\nTotal elapsed time is %d", executionTime);
+		System.out.printf("\nTotal elapsed time is %d\n\n", executionTime);
 	}
 	
-	public static <T> void dependencyAdvancedExecutor() {
+	public static <T> void parallelExecution() {
     	long startTime = System.nanoTime();
     	StudentService studentService = new StudentService();
 		SchoolService schoolService = new SchoolService();
-    	Map<Object, List<Signature>> inputMap = new HashMap<>();
+    	Map<Object, List<Signature>> executionMap = new HashMap<>();
     	List<Signature> studentServiceSignatures = new ArrayList<>();
 		List<Signature> schoolServiceSignatures = new ArrayList<>();
 		Map<String, Integer> bookSeries = new HashMap<>();
@@ -89,12 +89,12 @@ public class Client {
 				.returnType(List.class)
 				.build());
 
-		inputMap.put(studentService, studentServiceSignatures);
-		inputMap.put(schoolService, schoolServiceSignatures);
+		executionMap.put(studentService, studentServiceSignatures);
+		executionMap.put(schoolService, schoolServiceSignatures);
 
 		List<T> result = new ArrayList<>();
 		try {
-			result = ParallelProcessor.genericParallelExecutor(inputMap);
+			result = ParallelProcessor.genericParallelExecutor(executionMap);
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
@@ -102,13 +102,10 @@ public class Client {
     	long executionTime = (System.nanoTime() - startTime) / 1000000;
     	System.out.printf("\nTotal elapsed time is %d", executionTime);
     }
-	
-	
-	
-	public static void main(String[] args) {
-//		dependencyNormalExecutor2();
-		dependencyAdvancedExecutor();
-	}
 
+	public static void main(String[] args) {
+		serialExecution();
+		parallelExecution();
+	}
 	
 }
