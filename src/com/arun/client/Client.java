@@ -8,87 +8,90 @@ import java.util.Map;
 
 import com.arun.parallel.ParallelProcessor;
 import com.arun.parallel.Signature;
+import com.arun.student.SchoolService;
+import com.arun.student.Student;
+import com.arun.student.StudentService;
 
 public class Client {
 
-	public static void dependencyNormalExecutor() {
-    	long startTime = System.nanoTime();
-    	BusinessService service = new BusinessService();
-    	boolean query1 = service.executeQueryOne();
-    	List<Integer> query2 = service.executeQueryTwo(1);
-    	List<Student> query3 = service.executeQueryThree(Arrays.asList("arun", "aisu"));
-    	String query4 = service.executeQueryFour();
-    	Integer query5 = service.executeQueryFive();
-    	Student query6 = service.execQuerySix("strider",Long.valueOf(20),true);
-    	Map<String, Integer> maps = new HashMap<>();
-    	maps.put("A Song of Ice and Fire", 7);
-    	maps.put("Wheel of Time", 14);
-    	maps.put("Middle Earth Legendarium", 5);
-		service.execQuerySeven(maps);
-    	System.out.println(query1);
-    	System.out.println(query2);
-    	System.out.println(query3);  
-    	System.out.println(query4);    	
-    	System.out.println(query5);
-    	System.out.println(query6);
-    	long executionTime = (System.nanoTime() - startTime) / 1000000;
-    	System.out.printf("\nTotal elapsed time is %d", executionTime);
-    }
+	public static void dependencyNormalExecutor2() {
+		long startTime = System.nanoTime();
+		StudentService service = new StudentService();
+		Map<String, Integer> bookSeries = new HashMap<>();
+		bookSeries.put("A Song of Ice and Fire", 7);
+		bookSeries.put("Wheel of Time", 14);
+		bookSeries.put("Harry Potter", 7);
+
+		Student student = service.findStudent("john@gmail.com", 11, false);
+		List<Integer> marks = service.getStudentMarks(1L);
+		List<Student> students = service.getStudentsByFirstNames(Arrays.asList("John","Alice"));
+		String randomName = service.getRandomLastName();
+		Long studentId = service.findStudentIdByName("Kate", "Williams");
+		service.printMapValues(bookSeries);
+
+		System.out.println(student);
+		System.out.println(marks);
+		System.out.println(students);
+		System.out.println(randomName);
+		System.out.println(studentId);
+
+		long executionTime = (System.nanoTime() - startTime) / 1000000;
+		System.out.printf("\nTotal elapsed time is %d", executionTime);
+	}
 	
 	public static <T> void dependencyAdvancedExecutor() {
     	long startTime = System.nanoTime();
-    	BusinessService service = new BusinessService();
-    	BusinessServiceTwo serviceTwo = new BusinessServiceTwo();
+    	StudentService studentService = new StudentService();
+		SchoolService schoolService = new SchoolService();
     	Map<Object, List<Signature>> inputMap = new HashMap<>();
-    	List<Signature> signatures = new ArrayList<>();
-		List<Signature> signaturesTwo = new ArrayList<>();
-		Map<String, Integer> maps = new HashMap<>();
-		maps.put("A Song of Ice and Fire", 7);
-		maps.put("Wheel of Time", 14);
-		maps.put("Middle Earth Legendarium", 5);
+    	List<Signature> studentServiceSignatures = new ArrayList<>();
+		List<Signature> schoolServiceSignatures = new ArrayList<>();
+		Map<String, Integer> bookSeries = new HashMap<>();
+		bookSeries.put("A Song of Ice and Fire", 7);
+		bookSeries.put("Wheel of Time", 14);
+		bookSeries.put("Middle Earth Legendarium", 5);
 
-		signatures.add(Signature.method("executeQueryOne")
-				.returnType(Boolean.class)
+		studentServiceSignatures.add(Signature.method("getStudentMarks")
+				.returnType(List.class)
+				.argsList(Arrays.asList(1L))
+				.argTypes(Arrays.asList(Long.class))
 				.build());
 
-		signatures.add(Signature.method("executeQueryTwo")
+		studentServiceSignatures.add(Signature.method("getStudentsByFirstNames")
 				.returnType(List.class)
-				.argsList(Arrays.asList(1))
-				.argTypes(Arrays.asList(Integer.class))
-				.build());
-
-		signatures.add(Signature.method("executeQueryThree")
-				.returnType(List.class)
-				.argsList(Arrays.asList(Arrays.asList("Arun","Aisu")))
+				.argsList(Arrays.asList(Arrays.asList("John","Alice")))
 				.argTypes(Arrays.asList(List.class))
 				.build());
 
-		signatures.add(Signature.method("executeQueryFour")
+		studentServiceSignatures.add(Signature.method("getRandomLastName")
 				.returnType(String.class)
 				.build());
 
-		signatures.add(Signature.method("executeQueryFive")
-				.returnType(Integer.class)
+		studentServiceSignatures.add(Signature.method("findStudentIdByName")
+				.returnType(Long.class)
+				.argsList(Arrays.asList("Kate", "Williams"))
+				.argTypes(Arrays.asList(String.class, String.class))
 				.build());
 
-		signatures.add(Signature.method("execQuerySix")
+		studentServiceSignatures.add(Signature.method("findStudent")
 				.returnType(Student.class)
-				.argsList(Arrays.asList("Arun", Long.valueOf(27), true))
-				.argTypes(Arrays.asList(String.class, Long.class, Boolean.class))
+				.argsList(Arrays.asList("bob@gmail.com", 14, false))
+				.argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
 				.build());
 
-		signatures.add(Signature.method("execQuerySeven")
+		studentServiceSignatures.add(Signature.method("printMapValues")
 				.returnType(Void.class)
-				.argsList(Arrays.asList(maps))
+				.argsList(Arrays.asList(bookSeries))
 				.argTypes(Arrays.asList(Map.class))
 				.build());
 
-		signaturesTwo.add(Signature.method("q2")
-				.returnType(String.class)
+		schoolServiceSignatures.add(Signature.method("getSchoolNames")
+				.returnType(List.class)
 				.build());
 
-		inputMap.put(service, signatures);
-		inputMap.put(serviceTwo, signaturesTwo);
+		inputMap.put(studentService, studentServiceSignatures);
+		inputMap.put(schoolService, schoolServiceSignatures);
+
 		List<T> result = new ArrayList<>();
 		try {
 			result = ParallelProcessor.genericParallelExecutor(inputMap);
@@ -103,7 +106,7 @@ public class Client {
 	
 	
 	public static void main(String[] args) {
-//		dependencyNormalExecutor();
+//		dependencyNormalExecutor2();
 		dependencyAdvancedExecutor();
 	}
 

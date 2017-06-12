@@ -29,6 +29,46 @@ public class Student {
         this.hasScholarship = hasScholarship;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public List<Integer> getMarks() {
+        return marks;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Boolean getDayScholar() {
+        return isDayScholar;
+    }
+
+    public Boolean getHasScholarship() {
+        return hasScholarship;
+    }
+
     @Override
     public String toString() {
         return "Student{" +

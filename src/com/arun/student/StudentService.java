@@ -1,8 +1,10 @@
 package com.arun.student;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -15,19 +17,63 @@ public class StudentService {
             new Student(4L, "Kate", "Williams", "rob@gmail.com", "9", 15, Arrays.asList(80,90,95), "female", true, true)
             );
 
-    public Boolean executeQueryOne() {
-        simulateDelay();
-        return false;
-    }
-
     public List<Integer> getStudentMarks(Long id) {
-        simulateDelay();
-        return studentsDatabase.stream().filter(s -> s.getId().equals(id)).findFirst().orElseThrow(() -> new IllegalArgumentException("Unknown Student Id")).getMarks();
+        simulateOneSecondDelay();
+        return studentsDatabase.stream()
+                .filter(s -> s.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown Student Id"))
+                .getMarks();
     }
 
+    public List<Student> getStudentsByFirstNames(List<String> firstNames) {
+        List<Student> students = new ArrayList<>();
+        simulateOneSecondDelay();
+        firstNames.forEach(s -> students.addAll(
+                studentsDatabase.stream()
+                .filter(p -> p.getFirstName().equals(s))
+                .collect(Collectors.toList())
+        ));
+        return students;
+    }
 
+    public String getRandomLastName() {
+        simulateOneSecondDelay();
+        Random r = new Random();
+        int low = 1;
+        int high = 4;
+        int randomId = r.nextInt(high-low) + low;
+        return studentsDatabase.get(randomId).getLastName();
+    }
 
-    private void simulateDelay() {
+    public Long findStudentIdByName(String firstName, String lastName) {
+        simulateOneSecondDelay();
+        return studentsDatabase.stream()
+                .filter(s -> s.getFirstName().equals(firstName))
+                .filter(s -> s.getLastName().equals(lastName)).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown Student Name"))
+                .getId();
+    }
+
+    public Student findStudent(String email, Integer age, Boolean isDayScholar) {
+        simulateOneSecondDelay();
+        return studentsDatabase.stream()
+                .filter(s -> s.getEmail().equals(email))
+                .filter(s -> s.getAge().equals(age))
+                .filter(s -> s.getDayScholar().equals(isDayScholar))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+    }
+
+    public void printMapValues(Map<String, Integer> bookSeries) {
+        simulateOneSecondDelay();
+        System.out.println("Printing map contents");
+        for(Map.Entry<String, Integer> entry: bookSeries.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
+
+    private void simulateOneSecondDelay() {
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
