@@ -14,10 +14,15 @@ Example illustrating usage of the API:
 Consider a class StudentService.java which provides some methods to query Student data from a database.
 
 List<Integer> getStudentMarks(Long studentId);
+
 List<Student> getStudentsByFirstNames(List<String> firstNames);
+
 String getRandomLastName();
+
 Long findStudentIdByName(String firstName, String lastName);
+
 Student findStudent(String email, Integer age, Boolean isDayScholar);
+
 void printMapValues(Map<String, Integer> bookSeries);
 
 Another class SchoolService.java which returns a list of School names via the method
