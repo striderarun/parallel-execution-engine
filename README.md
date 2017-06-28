@@ -2,11 +2,12 @@
 A pure java library which can be used by clients to execute independent methods in parallel.
 Uses Java 8 Completable Futures, Reflection and Generics.
 
-* Does not use any third party libraries. Java 8 is a pre-requisite.
+* Java 8 is a pre-requisite. Uses Apache Velocity template for annotation based code generation.
+* Clients can use @Parallelizable to specify the methods to be parallelized and refer to the methods using static final String constants while building Signatures.
 * Uses flow style builder pattern to create method signatures.
 * Clients can use the library to parallelize methods with different signatures - different return types, method arguments, collections, custom classes etc.
 * Clients can also parallelize methods in different classes.
-* Since it is a pure java library, it can be used in Spring or other DI based projects as well.
+* It can be used in Spring or other DI based projects as well.
 * Clients can leverage java concurrency to parallelize method calls without worrying about the implementation.
 
 Example illustrating usage of the API:
@@ -42,7 +43,13 @@ studentServiceSignatures.add(Signature.method(StudentService_.findStudent)
 		.argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
 		.build());
 
+Check out the tests in ParallelExecutorTest.java.
+
 How to Build
 ------------
-Run `mvn clean install` from the root folder. This will generate meta model classes in the target folder with static final variables referring to the names of methods annotated with @Parallelizable. Clients can use these generated classes to refer to the methods while building Signatures instead of using method name directly. This improves type safety
+Run `mvn clean install` from the root folder. 
+
+This will generate meta model classes in the target folder with static final variables referring to the names of methods annotated with @Parallelizable. Clients can use these generated classes to refer to the methods while building Signatures instead of using method names directly. This improves type safety.
+
+
 
