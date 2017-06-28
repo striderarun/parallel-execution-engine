@@ -18,6 +18,7 @@ public class ParallelExecutorTest {
 
     @Test(timeout = 7100)
     public void testSerialExecution() {
+        long startTime = System.nanoTime();
         StudentService studentService = new StudentService();
         SchoolService schoolService = new SchoolService();
         Map<String, Integer> bookSeries = new HashMap<>();
@@ -32,11 +33,15 @@ public class ParallelExecutorTest {
         Long studentId = studentService.findStudentIdByName("Kate", "Williams");
         studentService.printMapValues(bookSeries);
         List<String> schoolNames = schoolService.getSchoolNames();
+        long executionTime = (System.nanoTime() - startTime) / 1000000;
+        
+        assert(executionTime < 7100);
 
     }
 
     @Test(timeout = 1100)
-    public  <T> void testParallelExecution() {
+    public <T> void testParallelExecution() {
+        long startTime = System.nanoTime();
         StudentService studentService = new StudentService();
         SchoolService schoolService = new SchoolService();
         Map<Object, List<Signature>> executionMap = new HashMap<>();
@@ -89,6 +94,9 @@ public class ParallelExecutorTest {
         executionMap.put(schoolService, schoolServiceSignatures);
 
         List<T> result = ParallelProcessor.genericParallelExecutor(executionMap);
+        long executionTime = (System.nanoTime() - startTime) / 1000000;
+
         assert(7 == result.size());
+        assert(executionTime < 1100);
     }
 }
