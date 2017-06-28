@@ -36,11 +36,13 @@ Using the parallel-execution-engine library, a client can call all the methods s
 
 Creating a signature:
 	
-studentServiceSignatures.add(Signature.method("findStudent")
+studentServiceSignatures.add(Signature.method(StudentService_.findStudent)
 		.returnType(Student.class)
 		.argsList(Arrays.asList("bob@gmail.com", 14, false))
 		.argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
 		.build());
 
-					
+How to Build
+------------
+Run `mvn clean install` from the root folder. This will generate meta model classes in the target folder with static final variables referring to the names of methods annotated with @Parallelizable. Clients can use these generated classes to refer to the methods while building Signatures instead of using method name directly. This improves type safety
 
