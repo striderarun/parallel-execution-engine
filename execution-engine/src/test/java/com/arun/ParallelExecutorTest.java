@@ -4,8 +4,10 @@ package com.arun;
 import com.arun.parallel.ParallelProcessor;
 import com.arun.parallel.Signature;
 import com.arun.student.SchoolService;
+import com.arun.student.SchoolService_;
 import com.arun.student.Student;
 import com.arun.student.StudentService;
+import com.arun.student.StudentService_;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -52,41 +54,41 @@ public class ParallelExecutorTest {
         bookSeries.put("Wheel of Time", 14);
         bookSeries.put("Middle Earth Legendarium", 5);
 
-        studentServiceSignatures.add(Signature.method("getStudentMarks")
+        studentServiceSignatures.add(Signature.method(StudentService_.getStudentMarks)
                 .returnType(List.class)
                 .argsList(Arrays.asList(1L))
                 .argTypes(Arrays.asList(Long.class))
                 .build());
 
-        studentServiceSignatures.add(Signature.method("getStudentsByFirstNames")
+        studentServiceSignatures.add(Signature.method(StudentService_.getStudentsByFirstNames)
                 .returnType(List.class)
                 .argsList(Arrays.asList(Arrays.asList("John","Alice")))
                 .argTypes(Arrays.asList(List.class))
                 .build());
 
-        studentServiceSignatures.add(Signature.method("getRandomLastName")
+        studentServiceSignatures.add(Signature.method(StudentService_.getRandomLastName)
                 .returnType(String.class)
                 .build());
 
-        studentServiceSignatures.add(Signature.method("findStudentIdByName")
+        studentServiceSignatures.add(Signature.method(StudentService_.findStudentIdByName)
                 .returnType(Long.class)
                 .argsList(Arrays.asList("Kate", "Williams"))
                 .argTypes(Arrays.asList(String.class, String.class))
                 .build());
 
-        studentServiceSignatures.add(Signature.method("findStudent")
+        studentServiceSignatures.add(Signature.method(StudentService_.findStudent)
                 .returnType(Student.class)
                 .argsList(Arrays.asList("bob@gmail.com", 14, false))
                 .argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
                 .build());
 
-        studentServiceSignatures.add(Signature.method("printMapValues")
+        studentServiceSignatures.add(Signature.method(StudentService_.printMapValues)
                 .returnType(Void.class)
                 .argsList(Arrays.asList(bookSeries))
                 .argTypes(Arrays.asList(Map.class))
                 .build());
 
-        schoolServiceSignatures.add(Signature.method("getSchoolNames")
+        schoolServiceSignatures.add(Signature.method(SchoolService_.getSchoolNames)
                 .returnType(List.class)
                 .build());
 
