@@ -17,6 +17,7 @@ public class Client {
 	public static void serialExecution() {
 		long startTime = System.nanoTime();
 		StudentService service = new StudentService();
+		SchoolService schoolService = new SchoolService();
 		Map<String, Integer> bookSeries = new HashMap<>();
 		bookSeries.put("A Song of Ice and Fire", 7);
 		bookSeries.put("Wheel of Time", 14);
@@ -28,12 +29,14 @@ public class Client {
 		String randomName = service.getRandomLastName();
 		Long studentId = service.findStudentIdByName("Kate", "Williams");
 		service.printMapValues(bookSeries);
+		List<String> schoolNames = schoolService.getSchoolNames();
 
 		System.out.println(student);
 		System.out.println(marks);
 		System.out.println(students);
 		System.out.println(randomName);
 		System.out.println(studentId);
+		System.out.println(schoolNames);
 
 		long executionTime = (System.nanoTime() - startTime) / 1000000;
 		System.out.printf("\nTotal elapsed time is %d\n\n", executionTime);
@@ -99,7 +102,7 @@ public class Client {
     }
 
 	public static void main(String[] args) {
-//		serialExecution();
+		serialExecution();
 		parallelExecution();
 	}
 	
