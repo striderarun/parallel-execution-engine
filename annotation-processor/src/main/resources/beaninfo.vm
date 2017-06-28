@@ -1,0 +1,9 @@
+package ${model.packageName};
+
+public class ${model.className} {
+
+#foreach($name in $model.methods)
+	public static final String $name = "$name";
+#end
+ 
+}
