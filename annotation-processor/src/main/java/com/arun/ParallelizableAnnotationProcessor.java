@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -20,6 +21,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
@@ -61,23 +63,49 @@ public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 			return true;
 		}
 		try {
-			Map<TypeModel, Set<String>> methodModel = new HashMap<>();
+			Map<TypeModel, Set<MethodModel>> classModel = new HashMap<>();
 			for (Element e : roundEnv.getElementsAnnotatedWith(Parallelizable.class)) {
 				ExecutableElement exeElement = (ExecutableElement) e;
 				TypeElement classElement = (TypeElement) exeElement.getEnclosingElement();
 				PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
-				
+
+				MethodModel methodModel = new MethodModel();
+				methodModel.setName(exeElement.getSimpleName().toString());
+				String returnType = exeElement.getReturnType().toString();
+				if (returnType.contains("<")) {
+					returnType = returnType.substring(0, returnType.indexOf("<"));
+				}
+				returnType = String.format("%s.class", returnType);
+				methodModel.setReturnTypeString(returnType);
+				List<String> argTypeNames = new ArrayList<>();
+				List<String> argNames = new ArrayList<>();
+				List<String> typeParamsList = new ArrayList<>();
+				for(VariableElement variableElement : ((ExecutableElement) e).getParameters()) {
+					typeParamsList.add(String.format("%s %s", variableElement.asType().toString(), variableElement.getSimpleName().toString()));
+					argNames.add(variableElement.getSimpleName().toString());
+					if (variableElement.asType().toString().contains("<")) {
+						String argType = variableElement.asType().toString();
+						argType = argType.substring(0, argType.indexOf("<"));
+						argTypeNames.add(String.format("%s.class", argType));
+					} else {
+						argTypeNames.add(String.format("%s.class", variableElement.asType().toString()));
+					}
+				}
+				methodModel.setArgNames(argNames);
+				methodModel.setArgTypeNames(argTypeNames);
+				methodModel.setTypeParamsSignature(String.join(",", typeParamsList));
+
 				TypeModel model = new TypeModel();
 				model.className = classElement.getSimpleName().toString() + "_";
 				model.packageName = packageElement.getQualifiedName().toString();
-				
-				if (methodModel.get(model) != null) {
-					Set<String> methods = methodModel.get(model);
-					methods.add(exeElement.getSimpleName().toString());
+
+				if (classModel.get(model) != null) {
+					Set<MethodModel> methods = classModel.get(model);
+					methods.add(methodModel);
 				} else {
-					Set<String> methods = new HashSet<>();
-					methods.add(exeElement.getSimpleName().toString());
-					methodModel.put(model, methods);
+					Set<MethodModel> methods = new HashSet<>();
+					methods.add(methodModel);
+					classModel.put(model, methods);
 				}
 			}
 
@@ -88,7 +116,7 @@ public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 			VelocityEngine ve = new VelocityEngine(props);
 			ve.init();
 
-			for(Entry<TypeModel, Set<String>> entry: methodModel.entrySet()) {
+			for(Entry<TypeModel, Set<MethodModel>> entry: classModel.entrySet()) {
 				TypeModel model = entry.getKey();
 				model.setMethods(new ArrayList<>(entry.getValue()));
 				VelocityContext vc = new VelocityContext();

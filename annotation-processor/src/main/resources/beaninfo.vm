@@ -1,9 +1,30 @@
 package ${model.packageName};
 
+import com.arun.MethodModel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public final class ${model.className} {
 
-#foreach($name in $model.methods)
-	public static final String $name = "$name";
+#foreach($method in $model.methods)
+	public static MethodModel ${method.name}(${method.typeParamsSignature}) {
+        MethodModel methodModel = new MethodModel();
+        methodModel.setName("${method.name}");
+        List<Class<? extends Object>> argTypes = new ArrayList<>();
+        List args = new ArrayList<>();
+  #foreach($argName in ${method.argNames})
+      args.add($argName);
+  #end
+      methodModel.setArgs(args);
+        methodModel.setReturnType(${method.returnTypeString});
+  #foreach($argClassType in ${method.argTypeNames})
+      argTypes.add($argClassType);
+  #end
+      methodModel.setArgTypes(argTypes);
+        return methodModel;
+	}
 #end
- 
+
+
 }

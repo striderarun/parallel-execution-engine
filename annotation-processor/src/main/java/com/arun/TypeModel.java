@@ -6,7 +6,7 @@ public class TypeModel {
 
 	String className;
 	String packageName;
-    List<String> methods;
+    List<MethodModel> methods;
 
 	public String getClassName() {
 		return className;
@@ -16,14 +16,14 @@ public class TypeModel {
 		return packageName;
 	}
 
-	public List<String> getMethods() {
+	public List<MethodModel> getMethods() {
 		return methods;
 	}
 
-	public void setMethods(List<String> methods) {
+	public void setMethods(List<MethodModel> methods) {
 		this.methods = methods;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
