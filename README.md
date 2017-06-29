@@ -4,8 +4,8 @@ A pure java library which can be used by clients to execute independent methods 
 Uses Java 8 Completable Futures, MethodHandles and Generics.
 
 * Java 8 is a pre-requisite. Uses Apache Velocity template for annotation based code generation.
-* Clients can use `@Parallelizable` to specify the methods to be parallelized and refer to the methods using static final String constants while building Signatures.
-* Uses flow style builder pattern to create method signatures.
+* Clients can use `@Parallelizable` to specify the methods to be parallelized.
+* Clients can create Signatures just as if calling the method itself.
 * Clients can use the library to parallelize methods with different signatures - different return types, method arguments, collections, custom classes etc.
 * Clients can also parallelize methods in different classes.
 * It can be used in Spring or other DI based projects as well.
@@ -40,14 +40,23 @@ will need 7 seconds to get the output of all the sequential service calls.
 
 Using the parallel-execution-engine library, a client can call all the methods simultaneously and get the output in 1 second.
 
-Creating a signature:
+Creating signatures is as simple as :
 
 ```java
-studentServiceSignatures.add(Signature.method(StudentService_.findStudent)
-		.returnType(Student.class)
-		.argsList(Arrays.asList("bob@gmail.com", 14, false))
-		.argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
-		.build());
+studentServiceSignatures.add(Signature.build(StudentService_.getStudentMarks(1L)));	studentServiceSignatures.add(Signature.build(StudentService_.getStudentsByFirstNames(Arrays.asList("John","Alice"))));
+studentServiceSignatures.add(Signature.build(StudentService_.getRandomLastName()));
+studentServiceSignatures.add(Signature.build(StudentService_.findStudentIdByName("Kate", "Williams")));
+studentServiceSignatures.add(Signature.build(StudentService_.findStudent("bob@gmail.com", 14, false)));
+studentServiceSignatures.add(Signature.build(StudentService_.printMapValues(bookSeries)));
+schoolServiceSignatures.add(Signature.build(SchoolService_.getSchoolNames()));
+```
+
+And then submit them to the executor to get the combined results:
+
+```java
+executionMap.put(studentService, studentServiceSignatures);
+executionMap.put(schoolService, schoolServiceSignatures);
+List<T> result = ParallelProcessor.genericParallelExecutor(executionMap);
 ```
 
 Check out the tests in `ParallelExecutorTest.java`.
@@ -56,4 +65,4 @@ How to Build
 ------------
 Run `mvn clean install` from the root folder. 
 
-This will generate meta model classes in the target folder with static final variables referring to the names of methods annotated with `@Parallelizable`. Clients can use these generated classes to refer to the methods while building Signatures instead of using method names directly. This improves type safety.
+Run the main method in `Client.java`
