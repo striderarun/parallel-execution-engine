@@ -1,6 +1,6 @@
 # parallel-execution-engine
 A pure java library which can be used by clients to execute independent methods in parallel.
-Uses Java 8 Completable Futures, Reflection and Generics.
+Uses Java 8 Completable Futures, MethodHandles and Generics.
 
 * Java 8 is a pre-requisite. Uses Apache Velocity template for annotation based code generation.
 * Clients can use @Parallelizable to specify the methods to be parallelized and refer to the methods using static final String constants while building Signatures.
