@@ -29,7 +29,7 @@ public class Signature {
 		return args;
 	}
 
-	public static Signature method(MethodModel methodModel) {
+	public static Signature build(MethodModel methodModel) {
 		Signature signature = new Signature();
 		signature.name = methodModel.getName();
 		signature.returnType = methodModel.getReturnType();

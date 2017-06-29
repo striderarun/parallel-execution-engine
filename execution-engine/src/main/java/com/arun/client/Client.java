@@ -56,13 +56,13 @@ public class Client {
 		bookSeries.put("Wheel of Time", 14);
 		bookSeries.put("Middle Earth Legendarium", 5);
 
-		studentServiceSignatures.add(Signature.method(StudentService_.getStudentMarks(1L)));
-		studentServiceSignatures.add(Signature.method(StudentService_.getStudentsByFirstNames(Arrays.asList("John","Alice"))));
-		studentServiceSignatures.add(Signature.method(StudentService_.getRandomLastName()));
-		studentServiceSignatures.add(Signature.method(StudentService_.findStudentIdByName("Kate", "Williams")));
-		studentServiceSignatures.add(Signature.method(StudentService_.findStudent("bob@gmail.com", 14, false)));
-		studentServiceSignatures.add(Signature.method(StudentService_.printMapValues(bookSeries)));
-		schoolServiceSignatures.add(Signature.method(SchoolService_.getSchoolNames()));
+		studentServiceSignatures.add(Signature.build(StudentService_.getStudentMarks(1L)));
+		studentServiceSignatures.add(Signature.build(StudentService_.getStudentsByFirstNames(Arrays.asList("John","Alice"))));
+		studentServiceSignatures.add(Signature.build(StudentService_.getRandomLastName()));
+		studentServiceSignatures.add(Signature.build(StudentService_.findStudentIdByName("Kate", "Williams")));
+		studentServiceSignatures.add(Signature.build(StudentService_.findStudent("bob@gmail.com", 14, false)));
+		studentServiceSignatures.add(Signature.build(StudentService_.printMapValues(bookSeries)));
+		schoolServiceSignatures.add(Signature.build(SchoolService_.getSchoolNames()));
 
 		executionMap.put(studentService, studentServiceSignatures);
 		executionMap.put(schoolService, schoolServiceSignatures);
