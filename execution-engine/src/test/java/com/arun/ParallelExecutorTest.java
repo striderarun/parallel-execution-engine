@@ -54,43 +54,13 @@ public class ParallelExecutorTest {
         bookSeries.put("Wheel of Time", 14);
         bookSeries.put("Middle Earth Legendarium", 5);
 
-        studentServiceSignatures.add(Signature.method(StudentService_.getStudentMarks)
-                .returnType(List.class)
-                .argsList(Arrays.asList(1L))
-                .argTypes(Arrays.asList(Long.class))
-                .build());
-
-        studentServiceSignatures.add(Signature.method(StudentService_.getStudentsByFirstNames)
-                .returnType(List.class)
-                .argsList(Arrays.asList(Arrays.asList("John","Alice")))
-                .argTypes(Arrays.asList(List.class))
-                .build());
-
-        studentServiceSignatures.add(Signature.method(StudentService_.getRandomLastName)
-                .returnType(String.class)
-                .build());
-
-        studentServiceSignatures.add(Signature.method(StudentService_.findStudentIdByName)
-                .returnType(Long.class)
-                .argsList(Arrays.asList("Kate", "Williams"))
-                .argTypes(Arrays.asList(String.class, String.class))
-                .build());
-
-        studentServiceSignatures.add(Signature.method(StudentService_.findStudent)
-                .returnType(Student.class)
-                .argsList(Arrays.asList("bob@gmail.com", 14, false))
-                .argTypes(Arrays.asList(String.class, Integer.class, Boolean.class))
-                .build());
-
-        studentServiceSignatures.add(Signature.method(StudentService_.printMapValues)
-                .returnType(void.class)
-                .argsList(Arrays.asList(bookSeries))
-                .argTypes(Arrays.asList(Map.class))
-                .build());
-
-        schoolServiceSignatures.add(Signature.method(SchoolService_.getSchoolNames)
-                .returnType(List.class)
-                .build());
+        studentServiceSignatures.add(Signature.method(StudentService_.getStudentMarks(1L)));
+        studentServiceSignatures.add(Signature.method(StudentService_.getStudentsByFirstNames(Arrays.asList("John","Alice"))));
+        studentServiceSignatures.add(Signature.method(StudentService_.getRandomLastName()));
+        studentServiceSignatures.add(Signature.method(StudentService_.findStudentIdByName("Kate", "Williams")));
+        studentServiceSignatures.add(Signature.method(StudentService_.findStudent("bob@gmail.com", 14, false)));
+        studentServiceSignatures.add(Signature.method(StudentService_.printMapValues(bookSeries)));
+        schoolServiceSignatures.add(Signature.method(SchoolService_.getSchoolNames()));
 
         executionMap.put(studentService, studentServiceSignatures);
         executionMap.put(schoolService, schoolServiceSignatures);
