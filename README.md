@@ -43,7 +43,8 @@ Using the parallel-execution-engine library, a client can call all the methods s
 Creating signatures is as simple as :
 
 ```java
-studentServiceSignatures.add(Signature.build(StudentService_.getStudentMarks(1L)));	studentServiceSignatures.add(Signature.build(StudentService_.getStudentsByFirstNames(Arrays.asList("John","Alice"))));
+studentServiceSignatures.add(Signature.build(StudentService_.getStudentMarks(1L)));
+studentServiceSignatures.add(Signature.build(StudentService_.getStudentsByFirstNames(Arrays.asList("John","Alice"))));
 studentServiceSignatures.add(Signature.build(StudentService_.getRandomLastName()));
 studentServiceSignatures.add(Signature.build(StudentService_.findStudentIdByName("Kate", "Williams")));
 studentServiceSignatures.add(Signature.build(StudentService_.findStudent("bob@gmail.com", 14, false)));
