@@ -45,7 +45,7 @@ public class ParallelProcessor {
 					suppliersList.add(SupplierFactory.createGenericReflectionSupplier(entry.getKey(), signature.getName(), signature.getReturnType(), signature));
 				}
 			}
-		} catch (NoSuchMethodException | SecurityException e) {
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		return execute(suppliersList);

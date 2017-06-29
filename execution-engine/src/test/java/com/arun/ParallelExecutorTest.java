@@ -83,7 +83,7 @@ public class ParallelExecutorTest {
                 .build());
 
         studentServiceSignatures.add(Signature.method(StudentService_.printMapValues)
-                .returnType(Void.class)
+                .returnType(void.class)
                 .argsList(Arrays.asList(bookSeries))
                 .argTypes(Arrays.asList(Map.class))
                 .build());
