@@ -40,7 +40,6 @@ import org.apache.velocity.tools.generic.DisplayTool;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 
-
 	/**
 	 * Default constructor.
 	 */
@@ -50,27 +49,20 @@ public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 	}
 
 	/**
-	 * Reads the BeanInfo information and writes a full featured BeanInfo type
-	 * with the help of an Apache Velocity template.
+	 * Reads the Parallelizable annotation and constructs a TypeModel from it
 	 *
 	 * @param annotations
-	 *            set of annotations found
 	 * @param roundEnv
-	 *            the environment for this processor round
-	 *
-	 * @return whether a new processor round would be needed
+	 * @return
 	 */
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-
 		if (annotations.isEmpty()) {
 			return true;
 		}
-
 		try {
 			Map<TypeModel, Set<String>> methodModel = new HashMap<>();
 			for (Element e : roundEnv.getElementsAnnotatedWith(Parallelizable.class)) {
-
 				ExecutableElement exeElement = (ExecutableElement) e;
 				TypeElement classElement = (TypeElement) exeElement.getEnclosingElement();
 				PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
@@ -87,8 +79,6 @@ public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 					methods.add(exeElement.getSimpleName().toString());
 					methodModel.put(model, methods);
 				}
-				
-
 			}
 
 			Properties props = new Properties();
@@ -97,8 +87,6 @@ public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 
 			VelocityEngine ve = new VelocityEngine(props);
 			ve.init();
-
-			
 
 			for(Entry<TypeModel, Set<String>> entry: methodModel.entrySet()) {
 				TypeModel model = entry.getKey();
@@ -110,22 +98,13 @@ public class ParallelizableAnnotationProcessor extends AbstractProcessor {
 				vc.put("display", new DisplayTool());
 
 				Template vt = ve.getTemplate("beaninfo.vm");
-
 				JavaFileObject jfo = processingEnv.getFiler().createSourceFile(model.getClassName());
-
 				processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "creating source file: " + jfo.toUri());
-
 				Writer writer = jfo.openWriter();
-
-				processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
-						"applying velocity template: " + vt.getName());
-
+				processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,"applying velocity template: " + vt.getName());
 				vt.merge(vc, writer);
-
 				writer.close();
 			}
-			
-
 		} catch (ResourceNotFoundException rnfe) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, rnfe.getLocalizedMessage());
 		} catch (ParseErrorException pee) {

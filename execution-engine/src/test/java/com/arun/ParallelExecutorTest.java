@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class ParallelExecutorTest {
 
-    @Test(timeout = 7100)
+    @Test(timeout = 7200)
     public void testSerialExecution() {
         long startTime = System.nanoTime();
         StudentService studentService = new StudentService();
@@ -37,11 +37,11 @@ public class ParallelExecutorTest {
         List<String> schoolNames = schoolService.getSchoolNames();
         long executionTime = (System.nanoTime() - startTime) / 1000000;
 
-        assert(executionTime < 7100);
+        assert(executionTime < 7200);
 
     }
 
-    @Test(timeout = 1100)
+    @Test(timeout = 1200)
     public <T> void testParallelExecution() {
         long startTime = System.nanoTime();
         StudentService studentService = new StudentService();
@@ -99,6 +99,6 @@ public class ParallelExecutorTest {
         long executionTime = (System.nanoTime() - startTime) / 1000000;
 
         assert(7 == result.size());
-        assert(executionTime < 1100);
+        assert(executionTime < 1200);
     }
 }
