@@ -41,7 +41,7 @@ public class ParallelExecutorTest {
 
     }
 
-    @Test(timeout = 1200)
+    @Test(timeout = 1500)
     public <T> void testParallelExecution() {
         long startTime = System.nanoTime();
         StudentService studentService = new StudentService();
@@ -69,6 +69,6 @@ public class ParallelExecutorTest {
         long executionTime = (System.nanoTime() - startTime) / 1000000;
 
         assert(7 == result.size());
-        assert(executionTime < 1200);
+        assert(executionTime < 1500);
     }
 }
