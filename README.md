@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/striderarun/parallel-execution-engine.svg?branch=master)](https://travis-ci.org/striderarun/parallel-execution-engine)
+
 # parallel-execution-engine
 
 A pure java library which can be used by clients to execute independent methods in parallel.
