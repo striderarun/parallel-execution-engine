@@ -5,7 +5,7 @@
 A pure java library which can be used by clients to execute independent methods in parallel.
 Uses Java 8 Completable Futures, MethodHandles and Generics.
 
-* Java 8 is a pre-requisite. Uses Apache Velocity template for annotation based code generation.
+* Uses Apache Velocity template for annotation based code generation.
 * Clients can use `@Parallelizable` to specify the methods to be parallelized.
 * Clients can create Signatures just as if calling the method itself.
 * Clients can use the library to parallelize methods with different signatures - different return types, method arguments, collections, custom classes etc.
