@@ -70,4 +70,4 @@ How to Build
 ------------
 Run `mvn clean install` from the root folder. 
 
-Run the main method in `Client.java`
+Run the main method in `examples/Client.java`
