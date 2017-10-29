@@ -13,8 +13,12 @@ import com.arun.student.SchoolService_;
 import com.arun.student.Student;
 import com.arun.student.StudentService;
 import com.arun.student.StudentService_;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Client {
+
+	public static final Logger LOGGER = LoggerFactory.getLogger(ParallelProcessor.class);
 
 	public static void serialExecution() {
 		long startTime = System.nanoTime();
