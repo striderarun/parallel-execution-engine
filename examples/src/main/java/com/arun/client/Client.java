@@ -45,7 +45,7 @@ public class Client {
 		LOGGER.info(schoolNames.toString());
 
 		long executionTime = (System.nanoTime() - startTime) / 1000000;
-		LOGGER.info(String.format("Total elapsed time is %d\n\n", executionTime));
+		LOGGER.info(String.format("Total elapsed time is [{}]", executionTime));
 	}
 	
 	public static <T> void parallelExecution() {
@@ -74,12 +74,12 @@ public class Client {
 		List<T> result = ParallelProcessor.genericParallelExecutor(executionMap);
 		result.forEach(s -> System.out.println(s));
     	long executionTime = (System.nanoTime() - startTime) / 1000000;
-    	System.out.printf("\nTotal elapsed time is %d", executionTime);
+    	LOGGER.info("Total elapsed time is [{}]", executionTime);
     }
 
 	public static void main(String[] args) {
 		serialExecution();
-//		parallelExecution();
+		parallelExecution();
 	}
 	
 }
