@@ -37,15 +37,15 @@ public class Client {
 		service.printMapValues(bookSeries);
 		List<String> schoolNames = schoolService.getSchoolNames();
 
-		System.out.println(student);
-		System.out.println(marks);
-		System.out.println(students);
-		System.out.println(randomName);
-		System.out.println(studentId);
-		System.out.println(schoolNames);
+		LOGGER.info(student.toString());
+		LOGGER.info(marks.toString());
+		LOGGER.info(students.toString());
+		LOGGER.info(randomName);
+		LOGGER.info(studentId.toString());
+		LOGGER.info(schoolNames.toString());
 
 		long executionTime = (System.nanoTime() - startTime) / 1000000;
-		System.out.printf("\nTotal elapsed time is %d\n\n", executionTime);
+		LOGGER.info(String.format("Total elapsed time is %d\n\n", executionTime));
 	}
 	
 	public static <T> void parallelExecution() {
@@ -79,7 +79,7 @@ public class Client {
 
 	public static void main(String[] args) {
 		serialExecution();
-		parallelExecution();
+//		parallelExecution();
 	}
 	
 }
