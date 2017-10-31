@@ -1,6 +1,8 @@
 package com.arun.student;
 
 import com.arun.Parallelizable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class StudentService {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
 
     private List<Student> studentsDatabase = Arrays.asList(
             new Student(1L, "Bob", "Hopkins", "bob@gmail.com", "8", 14, Arrays.asList(90,80,85), "male", false, true),
@@ -75,7 +79,7 @@ public class StudentService {
     @Parallelizable
     public void printMapValues(Map<String, Integer> bookSeries) {
         simulateOneSecondDelay();
-        System.out.println("Printing map contents");
+        LOGGER.info("Printing map contents");
         for(Map.Entry<String, Integer> entry: bookSeries.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
         }
